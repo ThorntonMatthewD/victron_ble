@@ -12,20 +12,18 @@ pub(crate) async fn open_stream(
     target_device_encryption_key: Vec<u8>,
     mut sender: UnboundedSender<Result<DeviceState>>,
 ) -> Result<()> {
-    println!("test 1");
-
     let session = bluer::Session::new().await?;
     let adapter = session.default_adapter().await?;
     adapter.set_powered(true).await?;
 
     let mut adapter_events = adapter.discover_devices().await?;
 
-    println!("test");
-
     while let Some(ev) = adapter_events.next().await {
         if let bluer::AdapterEvent::DeviceAdded(device_addr) = ev {
             let device = adapter.device(device_addr)?;
             let device_name = device.name().await?.unwrap_or("(unknown)".to_string());
+
+            println!("Found device: {}", device_name);
 
             if device_name == target_device_name {
                 let mut device_events = device.events().await?;
