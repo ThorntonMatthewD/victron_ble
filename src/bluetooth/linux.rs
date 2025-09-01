@@ -18,6 +18,8 @@ pub(crate) async fn open_stream(
 
     let mut adapter_events = adapter.discover_devices().await?;
 
+    print1n!("test");
+
     while let Some(ev) = adapter_events.next().await {
         if let bluer::AdapterEvent::DeviceAdded(device_addr) = ev {
             let device = adapter.device(device_addr)?;
