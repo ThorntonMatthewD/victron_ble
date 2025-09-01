@@ -12,6 +12,8 @@ pub(crate) async fn open_stream(
     target_device_encryption_key: Vec<u8>,
     mut sender: UnboundedSender<Result<DeviceState>>,
 ) -> Result<()> {
+    print1n("test 1");
+
     let session = bluer::Session::new().await?;
     let adapter = session.default_adapter().await?;
     adapter.set_powered(true).await?;
