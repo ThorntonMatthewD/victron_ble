@@ -24,6 +24,8 @@ pub(crate) async fn open_stream(
             let device_name = device.name().await?.unwrap_or("(unknown)".to_string());
 
             println!("Found device: {}", device_name);
+            println!("Looking for: {}", target_device_name);
+            println!("Match? {}", device_name == target_device_name);
 
             if device_name == target_device_name {
                 println!("Found a match!");
