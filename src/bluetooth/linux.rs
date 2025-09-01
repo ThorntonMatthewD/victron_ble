@@ -27,6 +27,8 @@ pub(crate) async fn open_stream(
             println!("Looking for: {}", target_device_name);
             println!("Match? {}", device_name == target_device_name);
 
+            println!("props: {:#?}", device.all_properties().await?);
+
             if device_name == target_device_name {
                 println!("Found a match!");
                 println!("Creating device_events stream");
