@@ -1,7 +1,7 @@
 #![cfg(target_os = "linux")]
 
 //! Linux specific implementation
-// use std::{println};
+use std::{println};
 use crate::{err::*, DeviceState};
 use bluer::{DeviceEvent, DeviceProperty};
 use tokio::sync::mpsc::UnboundedSender;
@@ -12,7 +12,7 @@ pub(crate) async fn open_stream(
     target_device_encryption_key: Vec<u8>,
     mut sender: UnboundedSender<Result<DeviceState>>,
 ) -> Result<()> {
-    print1n!("test 1");
+    println!("test 1");
 
     let session = bluer::Session::new().await?;
     let adapter = session.default_adapter().await?;
@@ -20,7 +20,7 @@ pub(crate) async fn open_stream(
 
     let mut adapter_events = adapter.discover_devices().await?;
 
-    print1n!("test");
+    println!("test");
 
     while let Some(ev) = adapter_events.next().await {
         if let bluer::AdapterEvent::DeviceAdded(device_addr) = ev {
