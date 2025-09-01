@@ -1,7 +1,7 @@
 #![cfg(target_os = "linux")]
 
 //! Linux specific implementation
-use std::{println};
+// use std::{println};
 use crate::{err::*, DeviceState};
 use bluer::{DeviceEvent, DeviceProperty};
 use tokio::sync::mpsc::UnboundedSender;
