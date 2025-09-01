@@ -29,15 +29,14 @@ pub(crate) async fn open_stream(
 
             if device_name == target_device_name {
                 println!("Found a match!");
-
+                println!("Creating device_events stream");
                 let mut device_events = device.events().await?;
+                println!("device_events stream created");
 
                 while let Some(device_event) = device_events.next().await {
-                    println!("Device event: {:?}", device_event);
+                    println!("Received device_event: {:?}", device_event);
 
-                    if let DeviceEvent::PropertyChanged(DeviceProperty::ManufacturerData(md)) =
-                        device_event
-                    {
+                    if let DeviceEvent::PropertyChanged(DeviceProperty::ManufacturerData(md)) = device_event {
                         if let Some(md) = &md.get(&super::VICTRON_MANUFACTURER_ID) {
                             super::handle_manufacturer_data(
                                 md,
@@ -47,6 +46,7 @@ pub(crate) async fn open_stream(
                         }
                     }
                 }
+                println!("device_events stream ended");
 
                 return Err(Error::BluetoothEventStreamClosed);
             }
