@@ -33,6 +33,8 @@ pub(crate) async fn open_stream(
                 let mut device_events = device.events().await?;
 
                 while let Some(device_event) = device_events.next().await {
+                    println!("Device event: {:?}", device_event);
+
                     if let DeviceEvent::PropertyChanged(DeviceProperty::ManufacturerData(md)) =
                         device_event
                     {
