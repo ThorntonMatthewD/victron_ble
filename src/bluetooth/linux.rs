@@ -26,6 +26,8 @@ pub(crate) async fn open_stream(
             println!("Found device: {}", device_name);
 
             if device_name == target_device_name {
+                println!("Found a match!");
+
                 let mut device_events = device.events().await?;
 
                 while let Some(device_event) = device_events.next().await {
