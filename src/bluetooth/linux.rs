@@ -17,7 +17,6 @@ pub(crate) async fn open_stream(
 
     adapter.set_powered(true).await?;
 
-    // Set discovery filter to only discover devices with RSSI of 737
     adapter.set_discovery_filter(bluer::DiscoveryFilter {
         rssi: Some(737),
         ..Default::default()
