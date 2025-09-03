@@ -16,7 +16,7 @@ pub(crate) async fn open_stream(
     let adapter = session.default_adapter().await?;
     adapter.set_powered(true).await?;
 
-    let mut adapter_events = adapter.discover_devices().await?;
+    let mut adapter_events = adapter.discover_devices_with_changes().await?;
 
     while let Some(ev) = adapter_events.next().await {
         if let bluer::AdapterEvent::DeviceAdded(device_addr) = ev {
