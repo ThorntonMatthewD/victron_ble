@@ -14,7 +14,14 @@ pub(crate) async fn open_stream(
 ) -> Result<()> {
     let session = bluer::Session::new().await?;
     let adapter = session.default_adapter().await?;
+
     adapter.set_powered(true).await?;
+
+    // Set discovery filter to only discover devices with RSSI of 737
+    adapter.set_discovery_filter(bluer::DiscoveryFilter {
+        rssi: Some(737),
+        ..Default::default()
+    }).await?;
 
     let mut adapter_events = adapter.discover_devices_with_changes().await?;
 
@@ -37,6 +44,7 @@ pub(crate) async fn open_stream(
 
                 while let Some(device_event) = device_events.next().await {
                     println!("Received device_event: {:?}", device_event);
+
 
                     if let DeviceEvent::PropertyChanged(DeviceProperty::ManufacturerData(md)) = device_event {
                         if let Some(md) = &md.get(&super::VICTRON_MANUFACTURER_ID) {
