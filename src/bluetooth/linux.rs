@@ -16,6 +16,18 @@ pub(crate) async fn open_stream(
     let adapter = session.default_adapter().await?;
     adapter.set_powered(true).await?;
 
+    let adapter_clone = adapter.clone();
+    tokio::spawn(async move {
+        let mut interval = tokio::time::interval(std::time::Duration::from_secs(30));
+        loop {
+            interval.tick().await;
+            match adapter_clone.address().await {
+                Ok(addr) => println!("Keep-alive: adapter address is {}", addr),
+                Err(e) => println!("Keep-alive: failed to read adapter address: {:?}", e),
+            }
+        }
+    });
+
     let mut adapter_events = adapter.discover_devices().await?;
 
     while let Some(ev) = adapter_events.next().await {
