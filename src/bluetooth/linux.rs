@@ -18,7 +18,7 @@ pub(crate) async fn open_stream(
     adapter.set_powered(true).await?;
 
     adapter.set_discovery_filter(bluer::DiscoveryFilter {
-        rssi: Some(737),
+        pattern: Some(target_device_name.clone()),
         ..Default::default()
     }).await?;
 
